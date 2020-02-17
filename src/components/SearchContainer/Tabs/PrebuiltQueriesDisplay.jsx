@@ -74,28 +74,27 @@ export default class PrebuiltQueriesDisplay extends Component {
         } else {
             queryPath = 'src/components/SearchContainer/Tabs/PrebuiltQueries.json';
         }
-        var that = this;
         $.ajax({
             url: queryPath,
             type: 'GET',
-            success: function(response) {
+            success: (response) => {
                 var x = JSON.parse(response);
                 var y = [];
 
-                $.each(x.queries, function(_, el) {
-                    if (that.state.currentMitigation) {
+                $.each(x.queries, (_, el) => {
+                    if (this.state.currentMitigation) {
                         $.each(el.queryList, (_, q) => {
                             if(!q.props){
                                 q.props = {};
                             }
-                            q.props['mitigation'] = that.state.currentMitigation;
+                            q.props['mitigation'] = this.state.currentMitigation;
                         })
                     }
                     y.push(el);
                 });
 
                 this.setState({ queries: y });
-            }.bind(this),
+            },
         });
     }
 
