@@ -19,6 +19,7 @@ export default class SearchContainer extends Component {
             pathfindValue: '',
             edgeincluded: appStore.edgeincluded,
             darkMode: false,
+            currentMitigation: null
         };
     }
 
@@ -42,6 +43,7 @@ export default class SearchContainer extends Component {
         emitter.on('gpoNodeClicked', this.openNodeTab.bind(this));
         emitter.on('ouNodeClicked', this.openNodeTab.bind(this));
         emitter.on('toggleDarkMode', this.toggleDarkMode.bind(this));
+        emitter.on('changeCurrentMitigation', (value) => {this.state.currentMitigation = value;});
         emitter.on(
             'setStart',
             function(payload) {
@@ -116,7 +118,8 @@ export default class SearchContainer extends Component {
 
                     let [query, startTerm, endTerm] = buildSelectQuery(
                         start,
-                        end
+                        end,
+                        this.state.currentMitigation
                     );
 
                     emitter.emit(
@@ -209,7 +212,7 @@ export default class SearchContainer extends Component {
                     return;
                 }
 
-                let [query, startTerm, endTerm] = buildSelectQuery(start, end);
+                let [query, startTerm, endTerm] = buildSelectQuery(start, end, this.state.currentMitigation);
 
                 emitter.emit(
                     'query',
@@ -380,7 +383,7 @@ export default class SearchContainer extends Component {
             return;
         }
 
-        let [query, startTerm, endTerm] = buildSelectQuery(start, end);
+        let [query, startTerm, endTerm] = buildSelectQuery(start, end, this.state.currentMitigation);
         emitter.emit(
             'query',
             query,

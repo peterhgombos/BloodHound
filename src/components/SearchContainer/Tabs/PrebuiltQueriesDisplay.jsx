@@ -14,6 +14,7 @@ export default class PrebuiltQueriesDisplay extends Component {
         this.state = {
             queries: [],
             custom: [],
+            currentMitigation: null
         };
     }
 
@@ -47,6 +48,10 @@ export default class PrebuiltQueriesDisplay extends Component {
                 this.setState({ queries: y });
             }.bind(this),
         });
+
+
+        emitter.on('changeCurrentMitigation', (value) => {this.state.currentMitigation = value;});
+        emitter.on('changeCurrentMitigation', this.setPrebuiltQueries.bind(this));
     }
 
     getCommandLine() {
@@ -60,6 +65,38 @@ export default class PrebuiltQueriesDisplay extends Component {
             default:
                 return 'xdg-open';
         }
+    }
+
+    setPrebuiltQueries() {
+        let queryPath;
+        if (this.state.currentMitigation) {
+            queryPath = 'src/components/SearchContainer/Tabs/PrebuiltMitigationQueries.json';
+        } else {
+            queryPath = 'src/components/SearchContainer/Tabs/PrebuiltQueries.json';
+        }
+        var that = this;
+        $.ajax({
+            url: queryPath,
+            type: 'GET',
+            success: function(response) {
+                var x = JSON.parse(response);
+                var y = [];
+
+                $.each(x.queries, function(_, el) {
+                    if (that.state.currentMitigation) {
+                        $.each(el.queryList, (_, q) => {
+                            if(!q.props){
+                                q.props = {};
+                            }
+                            q.props['mitigation'] = that.state.currentMitigation;
+                        })
+                    }
+                    y.push(el);
+                });
+
+                this.setState({ queries: y });
+            }.bind(this),
+        });
     }
 
     editCustom() {

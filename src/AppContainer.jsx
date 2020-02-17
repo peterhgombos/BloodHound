@@ -16,6 +16,7 @@ import RawQuery from './components/RawQuery';
 import MenuContainer from './components/Menu/MenuContainer';
 import ExportContainer from './components/Float/ExportContainer';
 import Settings from './components/Float/Settings';
+import Mitigations from './components/Float/Mitigations';
 import ZoomContainer from './components/Zoom/ZoomContainer';
 import QueryNodeSelect from './components/Float/QueryNodeSelect';
 import SessionClearModal from './components/Modals/SessionClearModal';
@@ -24,6 +25,7 @@ import HelpModal from './components/Modals/HelpModal.jsx';
 import NodeEditor from './components/Float/NodeEditor';
 import WarmupModal from './components/Modals/WarmupModal.jsx';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+const currentMitigationContext = React.createContext('none');
 
 export default class AppContainer extends Component {
     componentDidMount() {
@@ -79,6 +81,7 @@ export default class AppContainer extends Component {
                         <RawQuery />
                         <MenuContainer />
                         <Settings />
+                        <Mitigations />
                         <ZoomContainer />
                         <QueryNodeSelect />
                         <About />

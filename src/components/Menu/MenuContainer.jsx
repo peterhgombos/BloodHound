@@ -147,6 +147,10 @@ class MenuContainer extends Component {
         });
     }
 
+    _mitigationsClick() {
+        emitter.emit('openMitigations');
+    }
+
     async addBaseProps() {
         let s = driver.session();
         await s.run(
@@ -404,6 +408,13 @@ class MenuContainer extends Component {
                         click={this._settingsClick.bind(this)}
                         hoverVal='Settings'
                         glyphicon='fa fa-cogs'
+                    />
+                </div>
+                <div>
+                    <MenuButton
+                        click={this._mitigationsClick.bind(this)}
+                        hoverVal='Mitigations'
+                        glyphicon='fas fa-tasks'
                     />
                 </div>
                 <div>

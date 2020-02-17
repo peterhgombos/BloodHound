@@ -37,12 +37,21 @@
         "presets": [
             "@babel/preset-env",
             "@babel/preset-react"
+        ],
+        "plugins": [
+            [
+                "@babel/plugin-proposal-class-properties",
+                {
+                  "loose": true
+                }
+    ]
         ]
     },
     "devDependencies": {
         "@babel/cli": "^7.6.2",
         "@babel/core": "^7.6.2",
         "@babel/node": "^7.6.2",
+        "@babel/plugin-proposal-class-properties": "^7.8.3",
         "@babel/polyfill": "^7.6.0",
         "@babel/preset-env": "^7.6.2",
         "@babel/preset-react": "^7.0.0",

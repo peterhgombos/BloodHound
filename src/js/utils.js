@@ -51,7 +51,7 @@ export function buildSearchQuery(searchterm){
     }
 }
 
-export function buildSelectQuery(start, end){
+export function buildSelectQuery(start, end, currentMitigation){
     let startTerm, endTerm, apart, bpart;
 
     if (start.includes(':')){
@@ -84,7 +84,14 @@ export function buildSelectQuery(start, end){
         bpart = "MATCH (m) WHERE m.name =~ {bprop}"
     }
 
-    let query = `${apart} ${bpart} MATCH p=allShortestPaths((n)-[r:{}*1..]->(m)) RETURN p`
+    let query;
+
+    if (currentMitigation){
+        query = `${apart} ${bpart} MATCH p=allShortestPaths((n)-[r:{}*1..]->(m)) WHERE all(rel in relationships(p) WHERE NOT exists(rel.${currentMitigation})) RETURN p`
+    } else {
+        query = `${apart} ${bpart} MATCH p=allShortestPaths((n)-[r:{}*1..]->(m)) RETURN p`
+    }
+
     return [query, startTerm, endTerm];
 }
 
